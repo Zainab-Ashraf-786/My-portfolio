@@ -1,0 +1,236 @@
+# Chat Widget API Contract (Phase 11)
+
+**Date**: 2026-04-02 | **Feature**: Portfolio Website | **Phase**: 1 (Future Implementation)
+
+## Overview
+
+This document defines the API contract for the RAG chat widget. Currently uses mock responses (Phase 1-10). Real FastAPI backend integration occurs in Phase 11.
+
+---
+
+## API Specification
+
+### POST /api/chat
+
+Send a user message and receive AI assistant response.
+
+**Request**:
+```typescript
+interface ChatRequest {
+  message: string;      // User's question
+  sessionId?: string;   // Optional session tracking
+}
+```
+
+**Response** (Success - 200 OK):
+```typescript
+interface ChatResponse {
+  reply: string;        // AI assistant response
+  sessionId: string;    // Session ID for conversation context
+  sources?: string[];   // Optional: RAG source documents
+}
+```
+
+**Response** (Error - 400 Bad Request):
+```typescript
+interface ChatError {
+  error: string;        // Error message
+  code: string;         // Error code: "EMPTY_MESSAGE" | "MESSAGE_TOO_LONG"
+}
+```
+
+---
+
+## OpenAPI Schema
+
+```yaml
+openapi: 3.0.3
+info:
+  title: Portfolio Chat API
+  description: RAG-based chat widget for Zainab's portfolio
+  version: 1.0.0
+
+servers:
+  - url: https://api.zainab-portfolio.com
+    description: Production
+  - url: http://localhost:8000
+    description: Local development
+
+paths:
+  /api/chat:
+    post:
+      summary: Send message to AI assistant
+      operationId: sendMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  minLength: 1
+                  maxLength: 500
+                  example: "What services do you offer?"
+                sessionId:
+                  type: string
+                  format: uuid
+                  example: "550e8400-e29b-41d4-a716-446655440000"
+              required:
+                - message
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reply:
+                    type: string
+                    example: "Zainab offers four main services: Ecommerce Sites, Business Websites, AI Chatbots, and RAG Systems."
+                  sessionId:
+                    type: string
+                    format: uuid
+                  sources:
+                    type: array
+                    items:
+                      type: string
+                    example: ["services.md", "bio.md"]
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Message is required"
+                  code:
+                    type: string
+                    enum: [EMPTY_MESSAGE, MESSAGE_TOO_LONG]
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "RAG service unavailable"
+```
+
+---
+
+## Mock Response (Phase 1-10)
+
+During frontend-only development, use this mock response:
+
+```typescript
+const mockChatResponse = {
+  reply: "Great question! Zainab specializes in Next.js, FastAPI, and AI-powered systems. Want to know more about a specific skill or project?",
+  sessionId: "mock-session-123",
+  sources: []
+};
+```
+
+**Fallback Response** (unknown question):
+```typescript
+const fallbackResponse = {
+  reply: "I'll let Zainab know you asked — you can also reach her at zainab@example.com",
+  sessionId: "mock-session-123",
+  sources: []
+};
+```
+
+---
+
+## Knowledge Base Topics
+
+The RAG system should answer questions about:
+
+1. **Bio**: Name, title, location, experience, pronouns
+2. **Skills**: Tech stack, proficiency levels, categories
+3. **Services**: Offerings, descriptions, tech tags, pricing (if applicable)
+4. **Projects**: Project details, technologies, links
+5. **Availability**: Current status, response time, booking process
+6. **Contact**: Email, social links, preferred communication channels
+7. **FAQs**: Common questions about hiring, rates, timeline, process
+
+---
+
+## Error Handling
+
+| Error | Code | HTTP Status | User Message |
+|-------|------|-------------|--------------|
+| Empty message | EMPTY_MESSAGE | 400 | "Please enter a message" |
+| Message too long | MESSAGE_TOO_LONG | 400 | "Message exceeds 500 characters" |
+| RAG service down | SERVICE_UNAVAILABLE | 503 | "I'm having trouble connecting. Try emailing Zainab directly." |
+| Rate limit exceeded | RATE_LIMITED | 429 | "Too many messages. Please wait a moment." |
+
+---
+
+## Security Considerations
+
+**Phase 11 Requirements**:
+- Rate limiting: 10 messages per minute per IP
+- Input sanitization: Strip HTML, escape special characters
+- CORS: Only allow portfolio domain
+- API key: Required for RAG service (stored in environment variables)
+- Logging: Log all queries for analytics (anonymized)
+
+---
+
+## Frontend Integration (Phase 11)
+
+Replace mock API in `ChatWidget.tsx`:
+
+```typescript
+// Phase 1-10 (mock)
+const sendMockMessage = async (message: string) => {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  return mockChatResponse;
+};
+
+// Phase 11 (real)
+const sendMessage = async (message: string, sessionId: string) => {
+  const response = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message, sessionId })
+  });
+  
+  if (!response.ok) {
+    throw new Error('Chat service unavailable');
+  }
+  
+  return await response.json();
+};
+```
+
+---
+
+## Backend Implementation (Phase 11)
+
+**FastAPI Service** (separate repository):
+- RAG pipeline with vector database
+- OpenAI API integration
+- Knowledge base ingestion (markdown files)
+- Session management
+- Rate limiting
+
+**Deployment**:
+- Railway or Render for FastAPI
+- Environment variables for API keys
+- Health check endpoint: `GET /health`
+
+---
+
+## References
+
+- Spec: `/specs/1-portfolio-website/spec.md` (FR-021 to FR-027)
+- Frontend: `/components/ChatWidget.tsx`
+- Backend: TBD (Phase 11)
