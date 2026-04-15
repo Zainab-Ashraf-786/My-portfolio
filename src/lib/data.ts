@@ -124,7 +124,7 @@ export const projects = [
     liveUrl: 'https://aurawear-feel-it.vercel.app/',
     githubUrl: 'https://github.com/Zainab-Ashraf-786/Full-Stack-E-commerce-Site-Aura-Wear',
     featured: true,
-    image: '/images/project.PNG',
+    image: '/images/project.jpg',
   },
   {
     id: 'ecommerce-platform',
@@ -134,7 +134,7 @@ export const projects = [
     liveUrl: 'https://hackathon2-ruddy.vercel.app',
     githubUrl: 'https://github.com/Zainab-Ashraf-786/Hackathon2',
     featured: true,
-    image: '/images/project1.PNG',
+    image: '/images/project1.jpg',
   },
   {
     id: 'ai-employee',
