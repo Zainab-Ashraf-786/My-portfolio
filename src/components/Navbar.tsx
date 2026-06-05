@@ -11,27 +11,37 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      // Background change on scroll
+      setIsScrolled(window.scrollY > 50);
+      
+      // Active section detection
+      const sections = document.querySelectorAll('section[id]');
+      const scrollPosition = window.scrollY + 200; // Offset for navbar height
+      
+      sections.forEach((section) => {
+        const element = section as HTMLElement;
+        const top = element.offsetTop;
+        const height = element.offsetHeight;
+        const id = element.id;
+        
+        if (scrollPosition >= top && scrollPosition < top + height) {
+          setActiveSection(id);
+        }
+      });
+    };
+
     window.addEventListener('scroll', handleScroll);
+    // Initial check
+    setTimeout(handleScroll, 100);
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        });
-      },
-      { rootMargin: '-20% 0px -60% 0px', threshold: 0 }
-    );
-
-    const sections = document.querySelectorAll('section[id]');
-    sections.forEach((section) => observer.observe(section));
-    return () => sections.forEach((section) => observer.unobserve(section));
-  }, []);
-
-  const handleLinkClick = () => setIsMobileMenuOpen(false);
+  const handleLinkClick = (sectionId: string) => {
+    setActiveSection(sectionId);
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <nav
@@ -44,7 +54,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#hero" className="flex items-center gap-3 group">
+          <a href="#hero" className="flex items-center gap-3 group" onClick={() => handleLinkClick('hero')}>
             <motion.div
               whileHover={{ rotate: 5, scale: 1.1 }}
               className="w-10 h-10 bg-gradient-to-br from-accent-primary to-accent-teal rounded-xl flex items-center justify-center shadow-lg shadow-accent-glow/30"
@@ -67,6 +77,7 @@ export default function Navbar() {
               <a
                 key={item.label}
                 href={item.href}
+                onClick={() => handleLinkClick(item.sectionId)}
                 className={`relative text-sm font-bold transition-colors ${
                   activeSection === item.sectionId
                     ? 'text-accent-primary'
@@ -118,7 +129,7 @@ export default function Navbar() {
                 <motion.a
                   key={item.label}
                   href={item.href}
-                  onClick={handleLinkClick}
+                  onClick={() => handleLinkClick(item.sectionId)}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.08 }}
@@ -133,7 +144,7 @@ export default function Navbar() {
               ))}
               <motion.a
                 href="#contact"
-                onClick={handleLinkClick}
+                onClick={() => handleLinkClick('contact')}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navItems.length * 0.08 }}

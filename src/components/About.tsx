@@ -72,19 +72,19 @@ export default function About() {
                 {/* Decorative quote mark */}
                 <div className="absolute -top-4 -left-2 text-8xl text-accent-primary/10 font-serif leading-none">"</div>
                 
-                <p className="relative text-text-secondary text-xl leading-relaxed mb-8">
-                  {developerProfile.bio}
-                </p>
                 <p className="relative text-text-secondary text-xl leading-relaxed">
-                  I aim to merge advanced AI technical expertise with strategic business insights. 
-                  My work involves building innovative AI-powered applications, intelligent agent systems, 
-                  workflow automation, and leveraging cutting-edge technologies.
+                  {developerProfile.bio}
                 </p>
                 
                 {/* Stats Row */}
                 <div className="relative grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-border-color">
                   {[
-                    { value: `${developerProfile.experienceYears}+`, label: 'Years Experience' },
+                    { 
+                      value: developerProfile.experienceYears < 1 
+                        ? `${developerProfile.experienceYears * 12}+` 
+                        : `${developerProfile.experienceYears}+`, 
+                      label: developerProfile.experienceYears < 1 ? 'Months Experience' : 'Years Experience' 
+                    },
                     { value: `${developerProfile.projectsCount}+`, label: 'Projects Completed' },
                     { value: `${developerProfile.clientsCount}+`, label: 'Happy Clients' },
                   ].map((stat) => (

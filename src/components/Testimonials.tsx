@@ -5,6 +5,8 @@ import { testimonials } from '@/lib/data';
 import { Quote } from 'lucide-react';
 
 export default function Testimonials() {
+  if (testimonials.length === 0) return null;
+
   return (
     <section id="testimonials" className="py-24 md:py-32 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent-primary/5 to-transparent" />

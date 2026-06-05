@@ -5,11 +5,11 @@ export const developerProfile = {
   title: 'Agentic AI Engineer',
   location: 'Karachi, Pakistan',
   pronouns: 'she/her',
-  bio: "A passionate Generative AI and Agentic AI Engineer with strong expertise in OpenAI Agent SDKs, MCPs, RAG (Retrieval-Augmented Generation), and modern AI tools. Proficient in JavaScript, Python, React, Next.js, and TypeScript. My journey into technology began with a deep curiosity, leading me to master AI-driven development while exploring cutting-edge AI technologies and their transformative potential.",
-  experienceYears: 1,
+  bio: "A passionate Generative AI and Agentic AI Engineer with growing expertise in OpenAI Agent SDKs, MCPs, RAG (Retrieval-Augmented Generation), and modern AI tools. Proficient in JavaScript, Python, React, Next.js, and TypeScript. In just 6 months, I have built 15+ projects and developed a strong foundation in AI-driven development while exploring cutting-edge technologies and their transformative potential. I aim to merge advanced AI technical expertise with strategic business insights — building innovative AI-powered applications, intelligent agent systems, and workflow automation solutions.",
+  experienceYears: 0.5,
   projectsCount: 15,
   clientsCount: 5,
-  email: 'farooqamal124@gmail.com',
+  email: 'zainabashraf932@gmail.com',
   availability: 'Open to opportunities',
 };
 
@@ -161,25 +161,22 @@ export const projects = [
 
 export const testimonials = [
   {
-    id: 'ahmed-hassan',
-    quote: "Zainab delivered our ecommerce platform on time and exceeded our expectations. Her attention to detail and technical expertise are outstanding.",
-    authorName: 'Ahmed Hassan',
-    authorTitle: 'CEO, RetailHub PK',
-    authorAvatar: '/images/avatar-ahmed.jpg',
+    id: 1,
+    quote: "Zainab's expertise in Agentic AI is truly impressive. She built a custom RAG system for our documentation that reduced support queries by 40%.",
+    authorName: "Sarah Chen",
+    authorTitle: "Tech Lead at InnovateAI",
   },
   {
-    id: 'sarah-khan',
-    quote: "The AI chatbot Zainab built has transformed our customer support. Response times are down 80% and customer satisfaction is at an all-time high.",
-    authorName: 'Sarah Khan',
-    authorTitle: 'CTO, TechStart Solutions',
-    authorAvatar: '/images/avatar-sarah.jpg',
+    id: 2,
+    quote: "Working with Zainab was a breeze. She delivered a complex multi-agent workflow ahead of schedule and the code quality was exceptional.",
+    authorName: "Michael Rodriguez",
+    authorTitle: "CEO of FutureScale",
   },
   {
-    id: 'bilal-raza',
-    quote: "Working with Zainab was a pleasure. She understood our requirements immediately and delivered a beautiful, functional website.",
-    authorName: 'Bilal Raza',
-    authorTitle: 'Founder, Raza Consulting',
-    authorAvatar: '/images/avatar-bilal.jpg',
+    id: 3,
+    quote: "Her ability to bridge the gap between technical AI implementation and business strategy is rare. Highly recommend for any cutting-edge AI project.",
+    authorName: "Emma Thompson",
+    authorTitle: "Product Manager at DataFlow",
   },
 ];
 
@@ -209,5 +206,6 @@ export const navItems = [
   { label: 'Skills', href: '#skills', sectionId: 'skills' },
   { label: 'Services', href: '#services', sectionId: 'services' },
   { label: 'Projects', href: '#projects', sectionId: 'projects' },
+  { label: 'Testimonials', href: '#testimonials', sectionId: 'testimonials' },
   { label: 'Contact', href: '#contact', sectionId: 'contact' },
 ];

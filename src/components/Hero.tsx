@@ -61,7 +61,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background Orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div style={{ y: y1 }} className="absolute top-10 right-10 w-96 h-96 bg-accent-primary/10 rounded-full blur-[120px] animate-float" />

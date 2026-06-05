@@ -2,28 +2,19 @@
 
 import { motion } from 'framer-motion';
 import { Mail, Globe, User, Phone } from 'lucide-react';
-import { developerProfile } from '@/lib/data';
+import { developerProfile, socialLinks as dataSocialLinks } from '@/lib/data';
 
-const socialLinks = [
-  {
-    icon: Globe,
-    label: 'GitHub',
-    url: 'https://github.com/Zainab-Ashraf-786',
-    color: 'hover:text-white hover:border-white/50',
-  },
-  {
-    icon: User,
-    label: 'LinkedIn',
-    url: 'https://www.linkedin.com/in/zainab-ashraf-36b2a52bb',
-    color: 'hover:text-blue-500 hover:border-blue-500/50',
-  },
-  {
-    icon: Phone,
-    label: 'WhatsApp',
-    url: 'https://wa.me/923001234567',
-    color: 'hover:text-green-500 hover:border-green-500/50',
-  },
-];
+const socialIconMap = {
+  github: Globe,
+  linkedin: User,
+  whatsapp: Phone,
+};
+
+const socialColorMap = {
+  github: 'hover:text-white hover:border-white/50',
+  linkedin: 'hover:text-blue-500 hover:border-blue-500/50',
+  whatsapp: 'hover:text-green-500 hover:border-green-500/50',
+};
 
 export default function Contact() {
   return (
@@ -65,11 +56,12 @@ export default function Contact() {
 
           {/* Social Links */}
           <div className="flex items-center justify-center gap-5">
-            {socialLinks.map((link, i) => {
-              const Icon = link.icon;
+            {dataSocialLinks.map((link, i) => {
+              const Icon = socialIconMap[link.platform];
+              const colorClass = socialColorMap[link.platform];
               return (
                 <motion.a
-                  key={link.label}
+                  key={link.platform}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -78,7 +70,7 @@ export default function Contact() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.15 }}
                   whileHover={{ y: -8, scale: 1.1 }}
-                  className={`p-4 bg-bg-surface border border-border-color rounded-xl text-text-secondary ${link.color} transition-all duration-300`}
+                  className={`p-4 bg-bg-surface border border-border-color rounded-xl text-text-secondary ${colorClass} transition-all duration-300`}
                   aria-label={link.label}
                 >
                   <Icon className="w-6 h-6" />
